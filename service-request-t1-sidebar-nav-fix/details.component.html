@@ -1,0 +1,226 @@
+<div class="container">
+
+   <div *ngIf="!requestCreated">
+
+    <div class="page-header">
+        <h3>Create service request </h3>
+    </div>
+
+
+
+    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+
+        <div class="row">
+            <div class="col-sm-4">
+
+                <label for="sel1">Department</label><span style="color: red;" class="required">*</span>
+                <select class="form-control"
+                 id="dept"
+                 name="dept"
+                 ngModel
+                 required
+                 (input)="onSelectDept($event)"
+                 #dept>
+                 <option disabled  selected> Choose one </option>
+                  <option
+                  *ngFor="let item of department"
+                  >{{item}}</option>
+                </select>
+            </div>
+          </div>
+          <br>
+
+            <div class="row">
+              <div class="col-sm-4">
+                <label for="sel2"> Request Category</label><span style="color: red;" class="required">*</span>
+                <select
+                [disabled]="!depart"
+                *ngIf="!depart"
+                class="form-control">
+                <option selected disabled >Choose department </option>
+                </select>
+
+                <select
+                 *ngIf="depart==='IT'"
+                 [disabled]="!depart"
+                 class="form-control"
+                 id="catIT"
+                 name="category"
+                 ngModel
+                 (input)="onSelectIT($event)">
+                 <option disabled selected> Choose one </option>
+                 <option
+                    *ngFor="let item of ITCat"
+                    >{{item}}
+                </option>
+
+                </select>
+
+
+                <select
+                *ngIf="depart==='Finance'"
+                [disabled]="!depart"
+                (input)="onSelectFinance($event)"
+                 class="form-control"
+                 id="catFinance"
+                 name="category"
+                 ngModel>
+                <option disabled selected> Choose one </option>
+                <option
+                *ngFor="let item of financeCat"
+                >{{item}}
+                </option>
+                </select>
+
+                <select
+                *ngIf="depart==='Other'"
+                (input)="onSelectOther($event)"
+                [disabled]="!depart"
+                 class="form-control"
+                 id="catOther"
+                 name="category"
+                 ngModel>
+                 <option disabled selected> Choose one </option>
+                 <option
+                    *ngFor="let item of otherCat"
+                    >{{item}}
+                </option>
+                </select>
+
+
+                <select
+                *ngIf="depart==='Admin'"
+                (input)="onSelectAdmin($event)"
+                [disabled]="!depart"
+                 class="form-control"
+                 id="catAdmin"
+                 name="category"
+                 ngModel>
+                 <option
+                    *ngFor="let item of catAdmin"
+                    >{{item}}
+                </option>
+                </select>
+
+            </div>
+        </div>
+        <br>
+
+        <div class="row">
+          <div class="col-sm-4">
+
+            <label for="requestSubCat"> Request Sub Category</label><span style="color: red;" class="required">*</span>
+
+            <select class="form-control"
+            [disabled]="!reqCat"
+            *ngIf="!reqCat  ">
+                <option selected disabled >Choose Request Category </option>
+            </select>
+
+
+           <select
+           [disabled]="!reqCat "
+           *ngIf="reqCat==='Hardware' && depart==='IT' "
+            class="form-control"
+             id="subCatHW"
+             name="subCat"
+             ngModel
+             >
+             <option selected disabled>Choose one </option>
+             <option
+             *ngFor="let item of ITSubCatHW" > {{item}}  </option>
+           </select>
+
+
+           <select
+           [disabled]="!reqCat"
+           *ngIf="reqCat==='Software' && depart==='IT' "
+            class="form-control"
+             id="subCatHW"
+             name="subCat"
+             ngModel
+             >
+             <option selected disabled>Choose one </option>
+             <option
+             *ngFor="let item of ITSubCatSW" > {{item}}  </option>
+           </select>
+
+           <select
+           [disabled]="!reqCat "
+           *ngIf="reqCat==='Salary issue' && depart==='Finance'"
+            class="form-control"
+             id="subCatSi"
+             name="subCat"
+             ngModel
+             >
+             <option selected disabled>Choose one </option>
+             <option
+             *ngFor="let item of financeSubCat" > {{item}}  </option>
+           </select>
+
+           <select
+           [disabled]="!reqCat "
+           *ngIf="reqCat==='Travel booking' && depart==='Other'"
+            class="form-control"
+             id="subCatTb"
+             name="subCat"
+             ngModel
+             >
+             <option selected disabled>Choose one </option>
+             <option
+             *ngFor="let item of otherSubCat" > {{item}}  </option>
+           </select>
+
+           </div>
+
+       </div>
+
+       <br>
+
+
+       <div class="row">
+         <div class="col-sm-4">
+          <div class="form-group">
+            <label> Summary </label><span style="color: red;" class="required">*</span>
+            <textarea
+             class="form-control"
+             id="summary"
+             name="summary"
+             ngModel
+             required
+             maxlength="250">  </textarea>
+          </div>
+        </div>
+      </div>
+      <hr>
+
+
+
+   <br>
+
+<div class="row">
+    <div class="col-sm-4">
+    <button
+    type="submit"
+    class="btn btn-success" [disabled]="!f.valid"
+    > Save </button>
+    </div>
+</div>
+
+
+ </form>
+<button class="btn"><a href="#"> Cancel </a></button>
+
+
+</div>
+
+
+
+<div *ngIf="requestCreated"
+class="alert alert-success">
+Request created successfully.<br>
+Request ID is <strong>{{id}}</strong>.
+</div>
+
+
+

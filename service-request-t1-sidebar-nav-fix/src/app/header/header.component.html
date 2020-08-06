@@ -1,0 +1,78 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" [mode]="'over'">
+    <mat-toolbar color="primary">Menu</mat-toolbar>
+    <mat-nav-list>
+      <mat-list-item>
+        <mat-icon matListIcon>account_circle</mat-icon>
+        <a
+          matLine
+          [routerLink]="['/dashboardpage']"
+          routerLinkActive="router-link-active"
+          (click)="drawer.close()"
+          >Dashboard</a
+        >
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon matListIcon>assignment</mat-icon>
+        <a
+          matLine
+          [routerLink]="['/serviceform']"
+          routerLinkActive="router-link-active"
+          (click)="drawer.close()"
+          >Service Requests</a
+        >
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <!-- Toolbar Section -->
+    <mat-toolbar color="primary">
+      <button
+        mat-icon-button
+        class="example-icon"
+        aria-label="Example icon-button with menu icon"
+        (click)="drawer.toggle()"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>
+        <img src="../../assets/se2_logo.png" alt="SE2" style="height: 50px;" />
+      </span>
+      <span class="example-spacer"></span>
+      <button
+        mat-icon-button
+        class="example-icon favorite-icon"
+        aria-label="Example icon-button with heart icon"
+      ></button>
+    </mat-toolbar>
+
+    <!-- Navbar Section -->
+    <!-- <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a routerLink="/dashboardpage" class="navbar-brand">DashBoard</a>
+        </div>
+
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li routerLinkActive="active">
+              <a routerLink="/serviceform" style="cursor: pointer;"
+                >Service Form</a
+              >
+            </li>
+          </ul>
+
+          <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+              <li routerLinkActive="active">
+                <a routerLink="/cards" style="cursor: pointer;">Status</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav> -->
+
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

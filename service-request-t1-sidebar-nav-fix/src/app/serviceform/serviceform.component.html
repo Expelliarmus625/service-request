@@ -1,0 +1,78 @@
+<form [formGroup]="form" class="normal-form">
+  <div class="col-md-3">
+    <div class="controles-container">
+      <mat-grid-list cols="40" rowHeight="600px" style="padding: 50px;">
+        <div>
+          <input type="hidden" Name="$key" />
+          <mat-form-field>
+            <input
+              formControlName="serviceRequestNumber"
+              matInput
+              placeholder="Service Request Number*"
+            />
+            <mat-error>This field is mandatory.</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field>
+            <mat-select formControlName="department" placeholder="Department">
+              <ng-container *ngFor="let department of departments">
+                <mat-option value="{{ department.value }}">{{
+                  department.value
+                }}</mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <mat-select
+              formControlName="requestCategory"
+              placeholder="Request Category"
+            >
+              <ng-container *ngFor="let requestCategory of requestCategory">
+                <mat-option value="{{ requestCategory.value }}">{{
+                  requestCategory.value
+                }}</mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <mat-select
+              formControlName="requestSubCategory"
+              placeholder="Request SubCategory"
+            >
+              <ng-container
+                *ngFor="let requestSubCategory of requestSubCategory"
+              >
+                <mat-option value="{{ requestSubCategory.value }}">{{
+                  requestSubCategory.value
+                }}</mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="button-row">
+          <span
+            ><button
+              mat-raised-button
+              color="warn"
+              style="margin-right: 10px;"
+              type="submit"
+              [disabled]="form.invalid"
+              (click)="onSubmit(userData)"
+            >
+              Submit
+            </button></span
+          >
+          <button mat-raised-button color="warn" (click)="onClear()">
+            Clear
+          </button>
+        </div>
+      </mat-grid-list>
+    </div>
+  </div>
+</form>
