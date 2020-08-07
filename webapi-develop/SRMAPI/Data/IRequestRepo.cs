@@ -10,6 +10,7 @@ namespace SRMAPI.Data
     {
         bool SaveChanges();
         IEnumerable<Request> GetRequest();
+        IEnumerable<Request> GetRequestPreview();
         Request GetRequestById(int Id);
 
         void CreateRequest(Request request);
