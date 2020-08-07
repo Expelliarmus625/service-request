@@ -29,14 +29,21 @@
           </button>
         </div>
       </mat-toolbar>
-      <mat-form-field style="padding: 10px;">
+      <mat-progress-bar *ngIf="loading" mode="indeterminate" color = "accent"></mat-progress-bar>
+      
+      <mat-form-field style="padding: 10px;" *ngIf = "!loading">
         <input
           matInput
           placeholder="Filter"
           (keyup)="onFilter($event.target.value)"
         />
       </mat-form-field>
-      <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        multiTemplateDataRows
+        *ngIf="!loading"
+      >
         <ng-container
           matColumnDef="{{ column }}"
           *ngFor="let column of columnsToDisplay"

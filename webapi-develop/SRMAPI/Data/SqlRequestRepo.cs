@@ -43,6 +43,7 @@ namespace SRMAPI.Data
 
         }
 
+
         public Request GetRequestById(int Id)
         {
 
@@ -52,6 +53,11 @@ namespace SRMAPI.Data
            .Include(cat => cat.Category)
                                      .Where(req => req.Id == Id).FirstOrDefault();
             return request;
+        }
+
+        public IEnumerable<Request> GetRequestPreview()
+        {
+            throw new NotImplementedException();
         }
 
         public bool SaveChanges()

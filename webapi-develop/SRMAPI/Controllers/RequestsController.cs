@@ -12,9 +12,9 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
 using AutoMapper;
-using SRMAPI.Models;
 using System.Data.SqlClient;
 using MimeKit;
+using SRMAPI.DTOs;
 
 namespace SRMAPI.Controllers
 {
@@ -22,50 +22,45 @@ namespace SRMAPI.Controllers
     [ApiController]
     public class RequestsController : ControllerBase
     {
-       
+
         private readonly IRequestRepo _repository;
+        private readonly IMapper _mapper;
         private readonly object requestItems;
 
 
 
-        public RequestsController(IRequestRepo repository)
+        public RequestsController(IRequestRepo repository, IMapper mapper)
         {
             _repository = repository;
-
+            _mapper = mapper;
         }
 
         // GET: api/Requests
         [HttpGet]
         public ActionResult<IEnumerable<Request>> GetRequest()
         {
-          
             var requestItems = _repository.GetRequest();
             return Ok(requestItems);
         }
 
         // GET: api/Requests/5
         [HttpGet("{id}")]
-        public ActionResult<Request> GetRequestById(int Id)
+        public ActionResult<RequestReadDto> GetRequestById(int Id)
         {
-           
+
             var requestItem = _repository.GetRequestById(Id);
-
-
             if (requestItem != null)
             {
-
-                return Ok(requestItem);
+                return Ok(_mapper.Map<RequestReadDto>(requestItem));
             }
             return NotFound();
         }
 
         // PUT: api/Requests/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
         public IActionResult UpdateRequest(int Id, Request request)
         {
-           
+
             var updateRequestFromRepo = _repository.GetRequestById(Id);
             if (updateRequestFromRepo == null)
             {
@@ -77,19 +72,17 @@ namespace SRMAPI.Controllers
         }
 
         // POST: api/Requests
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
         public ActionResult<Request> CreateRequest(Request createRequest)
         {
-          
+
             _repository.CreateRequest(createRequest);
             _repository.SaveChanges();
 
 
             //send mail 
             var fromAddress = new MailAddress("fromAddress", "My Name");
-            var toAddress =  new MailAddress("toAdress", "Mr Test");
+            var toAddress = new MailAddress("toAdress", "Mr Test");
             const string fromPassword = "password";
             const string subject = "Request";
             const string body = "Request Created!";
@@ -119,7 +112,7 @@ namespace SRMAPI.Controllers
         [HttpDelete("{id}")]
         public ActionResult<Request> DeleteRequest(int Id)
         {
-           
+
             var requestFromRepo = _repository.GetRequestById(Id);
             if (requestFromRepo == null)
             {

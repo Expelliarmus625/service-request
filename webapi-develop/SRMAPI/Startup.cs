@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using SRMAPI.Data;
+using AutoMapper;
 
 namespace SRMAPI
 {
@@ -39,6 +40,7 @@ namespace SRMAPI
             services.AddScoped<IRequestTypeRepo, SqlRequestTypeRepo>();
             services.AddScoped<IStatusRepo, SqlStatusRepo>();
             services.AddScoped<IEmployeeRepo, SqlEmployeeRepo>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMvc(option => option.EnableEndpointRouting = false)
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                 .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);

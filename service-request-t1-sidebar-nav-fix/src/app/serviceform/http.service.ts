@@ -1,15 +1,20 @@
 import { NgForm } from '@angular/forms';
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Request } from './request.model';
+import { Subscription } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class HttpService {
+export class HttpService implements OnDestroy {
   constructor(private http: HttpClient) {}
+  postSubscription: Subscription;
 
+  ngOnDestroy(): void {
+    this.postSubscription.unsubscribe();
+  }
   createAndStoreRequest(formData: Request) {
-    this.http
+    this.postSubscription = this.http
       .post('http://localhost:5000/api/requests', formData)
       .subscribe((data) => {
         console.log(data);

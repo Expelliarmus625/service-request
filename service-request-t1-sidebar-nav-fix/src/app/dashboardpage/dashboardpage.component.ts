@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import {
   trigger,
   state,
@@ -9,6 +9,7 @@ import {
 import { MatTableDataSource } from '@angular/material/table';
 import { HttpService } from '../serviceform/http.service';
 import { MatPaginator } from '@angular/material/paginator';
+import { Subscription } from 'rxjs';
 
 export interface ServiceRequest {
   serviceNo: number;
@@ -34,8 +35,9 @@ export interface ServiceRequest {
     ]),
   ],
 })
-export class DashboardpageComponent implements OnInit {
+export class DashboardpageComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  apiSubscription: Subscription;
 
   dataSource: any;
   columnsToDisplay = [
@@ -46,6 +48,7 @@ export class DashboardpageComponent implements OnInit {
     'subCategory',
   ];
   expandedElement: ServiceRequest | null;
+  loading: boolean;
 
   constructor(private httpService: HttpService) {}
 
@@ -62,9 +65,15 @@ export class DashboardpageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.httpService.fetchFromAPI().subscribe((requests) => {
+    this.loading = true;
+    this.apiSubscription = this.httpService.fetchFromAPI().subscribe((requests) => {
       this.dataSource = new MatTableDataSource(requests);
+      this.loading = false;
       this.dataSource.paginator = this.paginator;
     });
+  }
+
+  ngOnDestroy() {
+    this.apiSubscription.unsubscribe();
   }
 }
